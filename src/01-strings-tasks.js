@@ -181,8 +181,8 @@ function convertToUpperCase(str) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -208,10 +208,27 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
-}
+function getRectangleString(width, height) {
+  const topLine = Array(width + 1).fill('─');
+  const middleLine = Array(width + 1).fill(' ');
+  const bottomLine = Array(width + 1).fill('─');
+  topLine[0] = '┌';
+  topLine[width - 1] = '┐';
+  topLine[width] = '\n';
+  middleLine[0] = '│';
+  middleLine[width - 1] = '│';
+  middleLine[width] = '\n';
+  bottomLine[0] = '└';
+  bottomLine[width - 1] = '┘';
+  bottomLine[width] = '\n';
+  let result = topLine.join('');
+  for (let i = 1; i < height - 1; i += 1) {
+    result += middleLine.join('');
+  }
+  result += bottomLine.join('');
 
+  return result;
+}
 
 /**
  * Encode specified string with ROT13 cipher
@@ -229,8 +246,20 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const rot13alphabet = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+
+  return str.split('').reduce((acc, char) => {
+    const charIndexInAlpha = alphabet.indexOf(char);
+    if (charIndexInAlpha > -1) {
+      const charIndexShifted = rot13alphabet[charIndexInAlpha];
+      acc.push(charIndexShifted);
+    } else {
+      acc.push(char);
+    }
+    return acc;
+  }, []).join('');
 }
 
 /**
@@ -246,9 +275,12 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  return (typeof value === 'string' || value instanceof String);
 }
+
+// eslint-disable-next-line no-new-wrappers
+// console.log(isString(new String('test')));
 
 
 /**
@@ -275,8 +307,14 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const deck = [
+    'A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠',
+  ];
+  return deck.findIndex((item) => item === value);
 }
 
 
