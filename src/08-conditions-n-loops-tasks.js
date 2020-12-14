@@ -90,8 +90,8 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented'); // TODO
+function isTriangle(a, b, c) {
+  return (a + b > c) && (b + c > a) && (a + c > b);
 }
 
 
@@ -283,8 +283,24 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented'); // TODO
+function isCreditCardNumber(ccn) {
+  const number = ccn.toString();
+  let sum = 0;
+  for (let i = 0; i < number.length; i += 1) {
+    let value = parseInt(number[i], 10);
+
+    if ((number.length - i) % 2 === 0) {
+      value *= 2;
+    }
+
+    if (value > 9) {
+      value -= 9;
+    }
+
+    sum += value;
+  }
+
+  return sum % 10 === 0;
 }
 
 /**
